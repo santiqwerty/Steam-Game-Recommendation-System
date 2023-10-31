@@ -78,8 +78,6 @@ async def recomendacion_juego(id_producto: int):  # Asegúrate de que id_product
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-
 @app.get("/recomendacion_usuario/{id_usuario}")
 async def recomendacion_usuario(id_usuario: str):
     try:
