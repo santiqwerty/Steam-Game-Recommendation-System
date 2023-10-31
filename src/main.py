@@ -14,6 +14,10 @@ data_files = {
     #"recomendacion_usuario": pd.read_parquet('data/processed/recomendaciones_usuario.parquet')
 }
 
+@app.get("/")
+async def read_root():
+    return {"Mensaje": 'Bienvenido a la API. Por favor, <a href="/docs">haz clic aquí</a> para ver los endpoints.'}
+
 @app.get("/developer/{desarrollador}")
 async def developer(desarrollador: str):
     try:
