@@ -67,6 +67,11 @@ async def UserForGenre(genero: str):
 # Renombrar la columna __index_level_0__ a id_producto
 data_files["recomendacion_juego"] = data_files["recomendacion_juego"].rename(columns={"__index_level_0__": "id_producto"})
 
+# Verificar el tipo de datos de la columna id_producto
+if data_files["recomendacion_juego"]['id_producto'].dtypes != 'int64':
+    # Si no es int, convertir la columna id_producto a int
+    data_files["recomendacion_juego"]['id_producto'] = data_files["recomendacion_juego"]['id_producto'].astype('int64')
+
 @app.get("/recomendacion_juego/{id_producto}")
 async def recomendacion_juego(id_producto: int):  # Asegúrate de que id_producto es del tipo correcto (int o str)
     try:
@@ -77,6 +82,7 @@ async def recomendacion_juego(id_producto: int):  # Asegúrate de que id_product
         raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/recomendacion_usuario/{id_usuario}")
 async def recomendacion_usuario(id_usuario: str):
