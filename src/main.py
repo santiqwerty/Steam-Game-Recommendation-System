@@ -73,15 +73,25 @@ if data_files["recomendacion_juego"]['id_producto'].dtypes != 'int64':
     data_files["recomendacion_juego"]['id_producto'] = data_files["recomendacion_juego"]['id_producto'].astype('int64')
 
 @app.get("/recomendacion_juego/{id_producto}")
-async def recomendacion_juego(id_producto: int):  # Asegúrate de que id_producto es del tipo correcto (int o str)
+async def recomendacion_juego(id_producto: int):
     try:
-        # Ahora puedes buscar directamente por id_producto
-        data = data_files["recomendacion_juego"].set_index('id_producto').loc[id_producto]
-        return data.to_dict()
-    except KeyError:
-        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+        # Busca el DataFrame recomendacion_juego por id_producto
+        df = data_files["recomendacion_juego"]
+        # Encuentra el nombre de la otra columna que no es 'id_producto'
+        other_column = df.columns.difference(['id_producto'])[0]
+        # Verifica si id_producto existe en la columna 'id_producto'
+        if id_producto in df['id_producto'].values:
+            # Si existe, obtén la fila correspondiente y devuelve el valor de la otra columna como un diccionario
+            data = df[df['id_producto'] == id_producto][other_column].values[0]
+            if isinstance(data, dict):
+                return data
+            else:
+                raise HTTPException(status_code=500, detail=f"El valor en {other_column} no es un diccionario.")
+        else:
+            raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 @app.get("/recomendacion_usuario/{id_usuario}")
