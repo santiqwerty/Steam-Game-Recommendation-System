@@ -10,8 +10,8 @@ data_files = {
     "best_developer_year": pd.read_parquet('data/processed/best_developer_year_data.parquet'),
     "developer_reviews_analysis": pd.read_parquet('data/processed/developer_reviews_analysis_data.parquet'),
     "UserForGenre": pd.read_parquet('data/processed/UserForGenre_data.parquet'),
-    #"recomendacion_juego": pd.read_parquet('data/processed/recomendaciones_juego.parquet'),
-    #"recomendacion_usuario": pd.read_parquet('data/processed/recomendaciones_usuario.parquet')
+    "recomendacion_juego": pd.read_parquet('data/processed/recomendaciones_juego.parquet'),
+    "recomendacion_usuario": pd.read_parquet('data/processed/recomendaciones_usuario.parquet')
 }
 
 @app.get("/developer/{desarrollador}")
