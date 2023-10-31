@@ -16,7 +16,57 @@ data_files = {
 
 @app.get("/")
 async def read_root():
-    return {"Mensaje": 'Bienvenido a la API. Por favor, <a href="/docs">haz clic aquí</a> para ver los endpoints.'}
+    return {"Mensaje": 'Bienvenido a la API. Por favor agrega "/docs" al final del URL para ver los endpoints.'}
+
+@app.get("/developer/{desarrollador}")
+async def developer(desarrollador: str):
+    try:
+        data = data_files["developer"].loc[desarrollador]
+        # Convertir el DataFrame a un diccionario donde cada clave es el nombre de la columna
+        # y cada valor es una lista de valores de esa columna.
+        result = data.to_dict(orient='list')
+        return result
+    except KeyError:
+        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/userdata/{User_id}")
+async def userdata(User_id: str):
+    try:
+        data = data_files["userdata"].loc[User_id]
+        return data.to_dict()
+    except KeyError:
+        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+
+@app.get("/best_developer_year/{año}")
+async def best_developer_year(año: int):
+    try:
+        # Convertir año a flotante
+        año_float = float(año)
+        data = data_files["best_developer_year"].loc[año_float]
+        return data.to_dict()
+    except KeyError:
+        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/developer_reviews_analysis/{desarrolladora}")
+async def developer_reviews_analysis(desarrolladora: str):
+    try:
+        data = data_files["developer_reviews_analysis"].loc[desarrolladora]
+        return data.to_dict()
+    except KeyError:
+        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+
+@app.get("/UserForGenre/{genero}")
+async def UserForGenre(genero: str):
+    try:
+        data = data_files["UserForGenre"].loc[genero]
+        return data.to_dict()
+    except KeyError:
+        raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
 
 @app.get("/developer/{desarrollador}")
 async def developer(desarrollador: str):
@@ -88,9 +138,6 @@ async def recomendacion_juego(id_producto: int):
             raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-
 
 @app.get("/recomendacion_usuario/{id_usuario}")
 async def recomendacion_usuario(id_usuario: str):
