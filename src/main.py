@@ -64,16 +64,21 @@ async def UserForGenre(genero: str):
     except KeyError:
         raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
 
-
-
+# Renombrar la columna __index_level_0__ a id_producto
+data_files["recomendacion_juego"] = data_files["recomendacion_juego"].rename(columns={"__index_level_0__": "id_producto"})
 
 @app.get("/recomendacion_juego/{id_producto}")
-async def recomendacion_juego(id_producto: str):
+async def recomendacion_juego(id_producto: int):  # Asegúrate de que id_producto es del tipo correcto (int o str)
     try:
-        data = data_files["recomendacion_juego"].loc[id_producto]
+        # Ahora puedes buscar directamente por id_producto
+        data = data_files["recomendacion_juego"].set_index('id_producto').loc[id_producto]
         return data.to_dict()
     except KeyError:
         raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 @app.get("/recomendacion_usuario/{id_usuario}")
 async def recomendacion_usuario(id_usuario: str):
