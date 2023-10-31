@@ -5,13 +5,13 @@ app = FastAPI()
 
 # Cargar los DataFrames desde archivos Parquet
 data_files = {
-    "developer": pd.read_parquet('../data/processed/developer_data.parquet'),
-    # "userdata": pd.read_parquet('../data/processed/userdata_data.parquet'),
-    "best_developer_year": pd.read_parquet('../data/processed/best_developer_year_data.parquet'),
-    "developer_reviews_analysis": pd.read_parquet('../data/processed/developer_reviews_analysis_data.parquet'),
-    "UserForGenre": pd.read_parquet('../data/processed/UserForGenre_data.parquet'),
-    # "recomendacion_juego": pd.read_parquet('../data/processed/recomendaciones_juego.parquet'),
-    # "recomendacion_usuario": pd.read_parquet('../data/processed/recomendaciones_usuario.parquet')
+    "developer": pd.read_parquet('data/processed/developer_data.parquet'),
+    "userdata": pd.read_parquet('data/processed/userdata_data.parquet'),
+    "best_developer_year": pd.read_parquet('data/processed/best_developer_year_data.parquet'),
+    "developer_reviews_analysis": pd.read_parquet('data/processed/developer_reviews_analysis_data.parquet'),
+    "UserForGenre": pd.read_parquet('data/processed/UserForGenre_data.parquet'),
+    "recomendacion_juego": pd.read_parquet('data/processed/recomendaciones_juego.parquet'),
+    "recomendacion_usuario": pd.read_parquet('data/processed/recomendaciones_usuario.parquet')
 }
 
 @app.get("/developer/{desarrollador}")
