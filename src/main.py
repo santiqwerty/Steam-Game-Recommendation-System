@@ -64,6 +64,9 @@ async def UserForGenre(genero: str):
     except KeyError:
         raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
 
+
+
+
 @app.get("/recomendacion_juego/{id_producto}")
 async def recomendacion_juego(id_producto: str):
     try:
