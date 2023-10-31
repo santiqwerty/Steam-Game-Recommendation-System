@@ -64,14 +64,6 @@ async def UserForGenre(genero: str):
     except KeyError:
         raise HTTPException(status_code=404, detail="No se encontraron datos para el argumento proporcionado.")
 
-# Renombrar la columna __index_level_0__ a id_producto
-data_files["recomendacion_juego"].rename(columns={"__index_level_0__": "id_producto"}, inplace=True)
-
-# Verificar el tipo de datos de la columna id_producto
-if data_files["recomendacion_juego"]['id_producto'].dtypes != 'int64':
-    # Si no es int, convertir la columna id_producto a int
-    data_files["recomendacion_juego"]['id_producto'] = data_files["recomendacion_juego"]['id_producto'].astype('int64')
-
 @app.get("/recomendacion_juego/{id_producto}")
 async def recomendacion_juego(id_producto: int):
     try:
